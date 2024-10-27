@@ -41,6 +41,16 @@ class EcowaterDevice(ayla_iot_unofficial.device.Device):
     def rssi(self) -> int:
         return self.get_property_value("rf_signal_strength_dbm")
 
+    # Hardness
+
+    @property
+    def hardness_ppm(self) -> float:
+        return self.get_property_value("hardness_grains") * 17.1
+
+    @property
+    def iron_level_tenths_ppm(self) -> int:
+        return self.get_property_value("iron_level_tenths_ppm")
+
     # Water
     
     @property
@@ -122,6 +132,9 @@ class EcowaterDevice(ayla_iot_unofficial.device.Device):
     def last_recharge_date(self) -> datetime.date:
         return datetime.datetime.now().date() - datetime.timedelta(days = self.get_property_value("days_since_last_regen"))
     
+    @property
+    def regen_time_remaining_secs(self) -> int:
+        return self.get_property_value("regen_time_rem_secs")
 
 class EcowaterAccount:
     def __init__(self, username: str, password: str) -> None:
